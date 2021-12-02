@@ -1,6 +1,11 @@
-<!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-database.js"></script>
+
+
+
+
+
+<!-- CSS and stuff -->
+
+
 
 <link rel="stylesheet" href="css/normalize.css">
 
@@ -9,41 +14,7 @@
 
         <link rel="stylesheet" href="css/style.css">
 
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#config-web-app -->
 
-<script>
-  // Your web app's Firebase configuration
- const firebaseConfig = {
-  apiKey: "AIzaSyDz9QFBI7a-kseZUujZubofQf81fx454zc",
-  authDomain: "chatapp-39683.firebaseapp.com",
-  databaseURL: "https://chatapp-39683-default-rtdb.firebaseio.com",
-  projectId: "chatapp-39683",
-  storageBucket: "chatapp-39683.appspot.com",
-  messagingSenderId: "503764494777",
-  appId: "1:503764494777:web:1cf6cbd5970ad829d76e68"
-};
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-
-  firebase.database().ref("messages").on("child_removed", function (snapshot) {
-    document.getElementById("message-" + snapshot.key).innerHTML = "This message has been deleted";
-  });
-
-  function deleteMessage(self) {
-    var messageId = self.getAttribute("data-id");
-    firebase.database().ref("messages").child(messageId).remove();
-  }
-
-  function sendMessage() {
-    var message = document.getElementById("message").value;
-    firebase.database().ref("messages").push().set({
-      "message": message,
-      "sender": myName
-    });
-    return false;
-  }
-</script>
 
 <style>
   figure.avatar {
@@ -55,8 +26,33 @@
     border: none;
     margin-left: 10px;
     border-radius: 5px;
-  }
+    }
+    
+    .fixed-bottom {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: lightseagreen;
+        color: white;
+        text-align: center;
+        padding: 25px;
+        font-size: 20px;
+    }
 </style>
+
+
+
+
+
+
+
+
+
+<!-- Main stuff -->
+
+
+
 
 <div class="chat">
   <div class="chat-title">
@@ -76,21 +72,93 @@
 </div>
 <div class="bg"></div>
 
+
+
+
+
+
+
+<!-- Scripts -->
+
+
+
+
+
+
+
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-app.js"></script>
+ 
+<!-- include firebase database -->
+<script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-database.js"></script>
+ 
+<script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyDz9QFBI7a-kseZUujZubofQf81fx454zc",
+        authDomain: "chatapp-39683.firebaseapp.com/",
+        databaseURL: "https://chatapp-39683-default-rtdb.firebaseio.com",
+        projectId: "chatapp-39683",
+        storageBucket: "chatapp-39683.appspot.com/",
+        messagingSenderId: "503764494777",
+        appId: "1:503764494777:web:1cf6cbd5970ad829d76e68"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    
+    var myName = prompt("Enter your name");
+</script>
+
+<form onsubmit="return sendMessage();">
+    <input id="message" placeholder="Enter message" autocomplete="off">
+    
+    <input type="submit">
+</form>
+
+<script> 
+function sendMessage() {
+    // get message
+    var message = document.getElementById("message").value;
+    
+    // save in database
+    firebase.database().ref("messages").push().set({
+        "sender": myName,
+        "message": message
+    });    
+       
+    // prevent form from submitting
+        return false;
+    
+}
+</script>
+
+<!-- make list -->
+
+<ul id="meesages"></ul>
+
+<script> 
+    // listen for incoming messages
+    firebase.database().ref("messages").on("child_added", function (snapshot) {
+        var html = "";
+        // give each msg a ID
+        html += "<li id='message-" + snapshot.key + "'>";
+        // show delete button is msg is sent by the sender
+        if (snapshot.val().sender == myName) {
+            html += "<button data-id='" + snapshot.key + "' onclick='deleteMessage(this);'>";
+                html += "Delete";
+            html += "</button>";
+        }
+        html += snapshot.val().sender + ": " + snapshot.val().message;
+        html += "</li>";
+        
+        document.getElementById("messages").innerHTML += html;
+    });
+</script>
+
+
+
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.concat.min.js'></script>
 
         <script src="js/index.js?v=<?= time(); ?>"></script>
-
-<style>
-    .fixed-bottom {
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        background-color: lightseagreen;
-        color: white;
-        text-align: center;
-        padding: 25px;
-        font-size: 20px;
-    }
-</style>
