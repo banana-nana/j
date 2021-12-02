@@ -14,15 +14,14 @@
 
 <script>
   // Your web app's Firebase configuration
-  const firebaseConfig = {
+ const firebaseConfig = {
   apiKey: "AIzaSyDz9QFBI7a-kseZUujZubofQf81fx454zc",
   authDomain: "chatapp-39683.firebaseapp.com",
   databaseURL: "https://chatapp-39683-default-rtdb.firebaseio.com",
   projectId: "chatapp-39683",
   storageBucket: "chatapp-39683.appspot.com",
   messagingSenderId: "503764494777",
-  appId: "1:503764494777:web:8e1481eddf5d403fd76e68",
-  measurementId: "G-29X90CJS53"
+  appId: "1:503764494777:web:1cf6cbd5970ad829d76e68"
 };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
