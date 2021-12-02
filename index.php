@@ -95,7 +95,3 @@
         font-size: 20px;
     }
 </style>
-
-<div class="footer fixed-bottom">
-    Get an image sharing web app in Node JS and Mongo DB for just <b>$20</b>. <a style="color: greenyellow;" href="https://adnan-tech.com/image-sharing-app-in-node-js/">Get here</a>
-</div>
